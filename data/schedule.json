@@ -1,15 +1,3 @@
 {
-  "posts": [
-    {
-      "id": "w01_facebook_01",
-      "platform": "facebook",
-      "type": "image_post",
-      "topic": "Is an ADU right for your property?",
-      "status": "draft",
-      "scheduled_date": "2026-03-16",
-      "week": 1,
-      "mock_file": "mocks/week_01_facebook_post.html",
-      "copy": "Not every lot is ADU-ready — but more are than you'd think.\n\nHere's a simple checklist to find out if yours qualifies:\n\n✓ Lot size over 1,200 sq ft?\n✓ Single-family zoning?\n✓ Access to water and sewer?\n✓ Setbacks of at least 4 ft on sides and rear?\n\nIf you checked all four boxes, you're likely good to go.\n\nDrop your zip code in the comments and we'll tell you what the rules are in your city."
-    }
-  ]
+  "posts": []
 }
