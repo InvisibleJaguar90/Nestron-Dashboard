@@ -1,39 +1,6 @@
 {
   "posts": [
     {
-      "id": "w01_linkedin_01",
-      "platform": "linkedin",
-      "type": "text_post",
-      "topic": "ADU permit myths debunked",
-      "status": "approved",
-      "scheduled_date": "2026-03-10",
-      "week": 1,
-      "mock_file": "mocks/week_01_linkedin_text_post.html",
-      "copy": "Most homeowners think an ADU permit takes 6–12 months. In many jurisdictions, it's now 30–60 days.\n\nHere are the 5 biggest ADU permit myths we hear every week:\n\n1. \"I need a separate meter\" — False for most attached ADUs\n2. \"My HOA can block it\" — State law often supersedes HOA rules in CA, OR, WA\n3. \"It'll hurt my resale value\" — Studies show ADUs add 30–50% more value than cost\n4. \"I need a general contractor\" — Owner-builders are permitted in most states\n5. \"The neighbor has to approve\" — Setback rules apply, but neighbor consent is rarely required\n\nThe permit process has changed dramatically in the last 3 years. Don't let outdated information stop you from building.\n\nWe've helped 200+ homeowners navigate this. Happy to answer your specific situation in the comments.\n\n#ADU #AccessoryDwellingUnit #HomeAddition #RealEstate #PermitProcess"
-    },
-    {
-      "id": "w01_instagram_01",
-      "platform": "instagram",
-      "type": "carousel",
-      "topic": "Before/after: garage ADU conversion",
-      "status": "in_review",
-      "scheduled_date": "2026-03-12",
-      "week": 1,
-      "mock_file": "mocks/week_01_instagram_carousel.html",
-      "copy": "This 400 sq ft garage became a $2,800/month rental unit. Swipe to see the full transformation.\n\nSlide 1: Empty two-car garage, 1962 construction\nSlide 2: Demo day — concrete floor scored, framing layout marked\nSlide 3: Mini-split HVAC rough-in, subpanel added\nSlide 4: Drywall up, polished concrete sealed\nSlide 5: Finished interior — open plan, full bath, kitchenette\nSlide 6: Exterior after — new entry door, landscaping, address signage\n\nBuilt in 14 weeks. Permitted. Profitable.\n\n#ADU #GarageConversion #RentalUnit #HomeImprovement #PassiveIncome"
-    },
-    {
-      "id": "w01_x_01",
-      "platform": "x",
-      "type": "text_post",
-      "topic": "Thread: Why ADU ROI beats stocks for most homeowners",
-      "status": "scheduled",
-      "scheduled_date": "2026-03-14",
-      "week": 1,
-      "mock_file": "mocks/week_01_x_posts.html",
-      "copy": "1/ Most homeowners are sitting on their best investment and don't know it. Thread on ADU ROI vs equities.\n\n2/ Average ADU build cost in CA: $180k. Average monthly rent for a 400 sq ft unit in LA: $2,200.\n\n3/ That's $26,400/year gross. 14.6% cash-on-cash return before depreciation benefits.\n\n4/ S&P 500 historical average: ~10.5%/year, with full market exposure and zero control.\n\n5/ ADU: leveraged, tangible, depreciable, and it's already on your land. You're not buying exposure — you're converting dead equity into income.\n\n6/ This is not financial advice. It is, however, math."
-    },
-    {
       "id": "w01_facebook_01",
       "platform": "facebook",
       "type": "image_post",
