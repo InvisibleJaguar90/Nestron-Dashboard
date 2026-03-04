@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Facebook Mock — Nestron · Week 1 · Draft 06</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: #F0F2F5;
+      min-height: 100vh;
+      padding: 32px 16px 64px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Mock banner ── */
+    .mock-banner {
+      max-width: 544px;
+      margin: 0 auto 14px;
+      background: #1C1C1C;
+      border-radius: 6px;
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .mock-banner-left {
+      font-size: 11px;
+      font-weight: 500;
+      color: #999;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .mock-banner-left strong { color: #fff; }
+    .mock-badge {
+      background: #B8722A;
+      color: #fff;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 3px 9px;
+      border-radius: 3px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    /* ── Facebook card ── */
+    .fb-card {
+      max-width: 544px;
+      margin: 0 auto;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.18), 0 0 0 1px rgba(0,0,0,0.06);
+      overflow: hidden;
+    }
+
+    /* ── Post header ── */
+    .fb-header {
+      display: flex;
+      align-items: flex-start;
+      padding: 12px 16px 8px;
+      gap: 10px;
+    }
+    .fb-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #0F0F0F;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 0.12em;
+    }
+    .fb-meta { flex: 1; min-width: 0; }
+    .fb-name {
+      font-size: 15px;
+      font-weight: 600;
+      color: #050505;
+      line-height: 1.3;
+    }
+    .fb-time {
+      font-size: 12px;
+      color: #65676B;
+      margin-top: 1px;
+    }
+    .fb-more {
+      font-size: 20px;
+      color: #65676B;
+      cursor: pointer;
+      line-height: 1;
+      padding: 4px;
+      margin-top: -2px;
+      letter-spacing: -1px;
+    }
+
+    /* ── Post body ── */
+    .fb-body {
+      padding: 0 16px 12px;
+      font-size: 15px;
+      color: #050505;
+      line-height: 1.47;
+    }
+    .fb-p { margin-bottom: 12px; }
+    .fb-p:last-of-type { margin-bottom: 0; }
+    .fb-link { color: #1877F2; text-decoration: none; }
+
+    /* ── Truncation marker ── */
+    .truncation-zone {
+      position: relative;
+      margin: 13px 0 15px;
+    }
+    .truncation-rule {
+      border: none;
+      border-top: 2px dashed #1877F2;
+    }
+    .truncation-pill {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: #1877F2;
+      color: #fff;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      padding: 3px 11px;
+      border-radius: 20px;
+      white-space: nowrap;
+    }
+
+    /* ── Post image ── */
+    .fb-image-wrap {
+      overflow: hidden;
+      cursor: pointer;
+      border-top: 1px solid #E4E6EB;
+      border-bottom: 1px solid #E4E6EB;
+    }
+    .fb-image {
+      width: 100%;
+      display: block;
+      object-fit: cover;
+      max-height: 340px;
+    }
+    .fb-image-placeholder {
+      width: 100%;
+      height: 260px;
+      background: #E4E6EB;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-style: italic;
+      color: #65676B;
+      text-align: center;
+      padding: 16px;
+    }
+
+    /* ── Stats row ── */
+    .fb-stats {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 16px 5px;
+      font-size: 13px;
+      color: #65676B;
+    }
+    .fb-stats-left { display: flex; align-items: center; gap: 5px; }
+    .fb-reaction-stack { display: flex; }
+    .fb-reaction-bubble {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #fff;
+      border: 1.5px solid #E4E6EB;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      margin-left: -4px;
+    }
+    .fb-reaction-bubble:first-child { margin-left: 0; }
+
+    /* ── Action bar ── */
+    .fb-actions {
+      display: flex;
+      border-top: 1px solid #E4E6EB;
+      padding: 2px 4px;
+    }
+    .fb-action {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 7px 8px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      color: #65676B;
+      border-radius: 4px;
+      user-select: none;
+    }
+    .fb-action:hover { background: #F0F2F5; }
+    .fb-action-icon { font-size: 17px; line-height: 1; }
+
+    /* ── Annotation panel ── */
+    .annotation-panel {
+      max-width: 544px;
+      margin: 12px auto 0;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 0 0 1px rgba(0,0,0,0.09);
+      overflow: hidden;
+    }
+    .annotation-header {
+      background: #F0F2F5;
+      padding: 9px 18px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      color: #888;
+      border-bottom: 1px solid #E4E6EB;
+    }
+    .annotation-row {
+      display: flex;
+      gap: 14px;
+      padding: 11px 18px;
+      border-bottom: 1px solid #F0F2F5;
+      font-size: 12.5px;
+      line-height: 1.55;
+      align-items: flex-start;
+    }
+    .annotation-row:last-child { border-bottom: none; }
+    .ann-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #1877F2;
+      white-space: nowrap;
+      padding-top: 2px;
+      min-width: 76px;
+    }
+    .ann-text { color: #444; }
+    .ann-pass { color: #2d7a2d; font-weight: 600; }
+  </style>
+</head>
+<body>
+
+  <!-- Mock banner -->
+  <div class="mock-banner">
+    <div class="mock-banner-left">
+      <strong>Facebook</strong> &nbsp;·&nbsp; Page Post &nbsp;·&nbsp; Educational Text + Image &nbsp;·&nbsp; Week 1 &nbsp;·&nbsp; Draft 06 &nbsp;·&nbsp; Rev 2
+    </div>
+    <div class="mock-badge">Mock — Not for Publication</div>
+  </div>
+
+  <!-- Facebook post card -->
+  <div class="fb-card">
+
+    <!-- Header -->
+    <div class="fb-header">
+      <div class="fb-avatar">N</div>
+      <div class="fb-meta">
+        <div class="fb-name">Nestron</div>
+        <div class="fb-time">Just now &nbsp;·&nbsp; 🌐</div>
+      </div>
+      <div class="fb-more">···</div>
+    </div>
+
+    <!-- Body -->
+    <div class="fb-body">
+
+      <!-- ↑ ABOVE THE FOLD — visible in feed before "See More" -->
+      <div class="fb-p">
+        The build phase of a factory-built ADU looks different from what most homeowners expect.
+      </div>
+
+      <!-- Truncation marker -->
+      <div class="truncation-zone">
+        <hr class="truncation-rule">
+        <div class="truncation-pill">↑ Feed shows ~3 lines then "See More" &nbsp;·&nbsp; ↓ Full post</div>
+      </div>
+
+      <!-- ↓ BELOW THE FOLD — visible after "See More" -->
+      <div class="fb-p">
+        Factory production removes the open-ended variables of site construction: weather exposure, rotating trades, and sequential scheduling decisions. The unit is built under controlled conditions by the same team running the same production process.
+      </div>
+
+      <div class="fb-p">
+        By the time it ships, electrical, plumbing, cabinetry, and finishes are installed and inspected. What's in the spec sheet is what arrives at your property.
+      </div>
+
+      <div class="fb-p">
+        What remains on site is specific: foundation work, utility connections, crane placement. These are defined before production begins, not worked out after.
+      </div>
+
+      <div class="fb-p">
+        If you're looking at how a factory-built ADU actually comes together, this week's post covers it.
+      </div>
+
+      <div class="fb-p">
+        <a class="fb-link" href="#">nestron.house/blog/controlled-manufacturing-environment</a>
+      </div>
+
+    </div><!-- /fb-body -->
+
+    <!-- Post image -->
+    <div class="fb-image-wrap">
+      <img class="fb-image"
+           src="../../assets/product/Ext_Back_Rows.jpg"
+           alt="Nestron L2 unit — exterior"
+           onerror="this.style.display='none'; document.getElementById('fb-img-fallback').style.display='flex';">
+      <div class="fb-image-placeholder" id="fb-img-fallback" style="display:none;">
+        Suggested image: Ext_ series — clean exterior of the L2 unit at Morongo Casino Resort, Cabazon, CA
+      </div>
+    </div>
+
+    <!-- Stats row -->
+    <div class="fb-stats">
+      <div class="fb-stats-left">
+        <div class="fb-reaction-stack">
+          <div class="fb-reaction-bubble">👍</div>
+          <div class="fb-reaction-bubble">❤️</div>
+        </div>
+        <span style="margin-left:6px;">Be the first to react</span>
+      </div>
+      <span>0 comments &nbsp;·&nbsp; 0 shares</span>
+    </div>
+
+    <!-- Action bar -->
+    <div class="fb-actions">
+      <div class="fb-action"><span class="fb-action-icon">👍</span> Like</div>
+      <div class="fb-action"><span class="fb-action-icon">💬</span> Comment</div>
+      <div class="fb-action"><span class="fb-action-icon">↗️</span> Share</div>
+    </div>
+
+  </div><!-- /fb-card -->
+
+  <!-- Annotation panel -->
+  <div class="annotation-panel">
+    <div class="annotation-header">Review Notes</div>
+
+    <div class="annotation-row">
+      <div class="ann-label">Format</div>
+      <div class="ann-text">Template 1: Educational text post with image. The workhorse format for Facebook — suited for process education content where the audience is evaluating a high-ticket purchase and needs to understand what the build process actually looks like before they can feel confident moving forward.</div>
+    </div>
+
+    <div class="annotation-row">
+      <div class="ann-label">Angle</div>
+      <div class="ann-text"><strong>Process walk-through</strong> (see Repurposing Angle Framework in <code>social/platform_guidelines.md</code>). Directly mirrors Draft 06's primary thesis — factory production removes the open-ended variables that make site construction unpredictable. Framed for the homeowner's actual concern: will the build process be manageable, and will I get what was specified? The psychological mechanism is Activation Energy reduction — the post answers the "what does this actually involve?" question that stalls homeowners at the consideration stage. Hook is framed around a gap in expectation ("looks different from what most homeowners expect"), not around the product or the company.</div>
+    </div>
+
+    <div class="annotation-row">
+      <div class="ann-label">Truncation</div>
+      <div class="ann-text">Facebook truncates after approximately 3 lines on mobile. The hook — "looks different from what most homeowners expect" — lands inside that window and creates an open loop. The "See More" tap resolves it: the body explains what's actually different and why it matters. Single short sentence above the fold is intentional — it stops the scroll without over-promising.</div>
+    </div>
+
+    <div class="annotation-row">
+      <div class="ann-label">Image</div>
+      <div class="ann-text">Exterior shot of the L2 unit. The Morongo photos (Ext_ series) are the strongest available asset for this audience — a real unit on a real site directly addresses the legitimacy question that is active for buyers at this stage. <strong>Ext_Back_Rows.jpg</strong> is the current fallback; substitute any clean, well-lit Morongo exterior if a stronger shot is available. Crop to 1200 × 630px for Facebook's preferred feed ratio, or 1080 × 1350px (4:5) to fill more vertical screen real estate. No text overlays on the image.</div>
+    </div>
+
+    <div class="annotation-row">
+      <div class="ann-label">Timing</div>
+      <div class="ann-text">Best posting windows: 8–10 AM, 12–1 PM, or 6–8 PM. Tuesday through Thursday perform strongest. Reply to comments promptly — Facebook's algorithm distributes Page content to more users similar to those who engage with it.</div>
+    </div>
+
+    <div class="annotation-row">
+      <div class="ann-label">Red Lines</div>
+      <div class="ann-text"><span class="ann-pass">✓ Pass</span> — No ROI claims, no permit approval guarantees, no timeline commitments, no competitor references. No cost comparisons or project cost estimates — post stays on manufacturing process and what the unit delivers, not on pricing. Anti-AI pattern check: no em dashes; no "It's not X, it's Y" constructions; no stacked short declaratives used for rhythm; "weather exposure, rotating trades, and sequential scheduling decisions" is a functional descriptive list, not a rhetorical triplet; no inflated abstractions or avoid-list vocabulary.</div>
+    </div>
+
+  </div>
+
+</body>
+</html>

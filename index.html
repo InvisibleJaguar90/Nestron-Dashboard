@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nestron — Content Pipeline</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- HEADER (dark bar) -->
+  <header class="site-header">
+    <div class="site-brand">
+      <span class="site-logo">Nestron</span>
+      <span class="site-subtitle">Content Pipeline · 内容发布计划</span>
+    </div>
+    <span class="header-date" id="header-date"></span>
+  </header>
+
+  <!-- CALENDAR NAV BAR (month title + prev/next + view selector) -->
+  <div class="cal-nav-bar">
+    <div class="cal-nav-left">
+      <button class="cal-nav-btn" id="cal-prev" aria-label="Previous">‹</button>
+      <button class="cal-nav-btn cal-nav-today" id="cal-today">Today</button>
+      <button class="cal-nav-btn" id="cal-next" aria-label="Next">›</button>
+      <h2 class="cal-title" id="cal-title"></h2>
+    </div>
+    <div class="cal-view-btns" role="group" aria-label="Calendar view">
+      <button class="cal-view-btn" data-view="month">Month</button>
+      <button class="cal-view-btn" data-view="week">Week</button>
+      <button class="cal-view-btn" data-view="all">All</button>
+    </div>
+  </div>
+
+  <!-- PLATFORM FILTER TABS -->
+  <nav class="filter-bar" id="filter-bar" role="tablist" aria-label="Filter by platform">
+    <!-- Injected by app.js -->
+  </nav>
+
+  <!-- CALENDAR MAIN (injected by app.js) -->
+  <main class="calendar-main" id="calendar-main" aria-live="polite"></main>
+
+  <!-- POST MODAL (full-screen) -->
+  <div class="modal-backdrop" id="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-panel">
+
+      <div class="modal-header">
+        <div class="modal-meta">
+          <span class="modal-platform-icon" id="modal-platform-icon"></span>
+          <div class="modal-title-group">
+            <h2 class="modal-title" id="modal-title"></h2>
+            <span class="modal-platform-label" id="modal-platform-label"></span>
+          </div>
+        </div>
+        <div class="modal-controls">
+          <div class="modal-tabs" role="tablist">
+            <button class="modal-tab active" id="tab-mock" data-tab="mock" role="tab" aria-selected="true">Full Mock · 完整预览</button>
+            <button class="modal-tab" id="tab-text" data-tab="text" role="tab" aria-selected="false">Text Only · 纯文字</button>
+          </div>
+          <button class="modal-close" id="modal-close" aria-label="Close">&times;</button>
+        </div>
+      </div>
+
+      <div class="modal-body">
+        <div class="tab-panel" id="panel-mock" role="tabpanel">
+          <iframe id="mock-iframe" class="mock-frame" sandbox="allow-same-origin allow-scripts" title="Full post mock preview"></iframe>
+        </div>
+        <div class="tab-panel hidden" id="panel-text" role="tabpanel">
+          <div class="text-panel-inner">
+            <div class="copy-text" id="copy-text"></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ADD POST MODAL -->
+  <div class="add-backdrop" id="add-backdrop">
+    <div class="add-panel" id="add-panel" role="dialog" aria-modal="true" aria-labelledby="add-title">
+      <div class="add-header">
+        <h3 class="add-title" id="add-title">New post</h3>
+        <button class="add-close" id="add-close" aria-label="Close">&times;</button>
+      </div>
+      <form class="add-form" id="add-form" autocomplete="off">
+        <label class="form-label">
+          Platform
+          <select class="form-select" name="platform" id="add-platform">
+            <!-- Injected by app.js so newsletter is included -->
+          </select>
+        </label>
+        <label class="form-label">
+          Publish date
+          <input class="form-input" type="date" name="scheduled_date" id="add-date" required />
+        </label>
+        <label class="form-label">
+          Topic <span class="form-optional">optional</span>
+          <input class="form-input" type="text" name="topic" id="add-topic" placeholder="Brief description…" />
+        </label>
+        <div class="form-file-row">
+          <span class="form-label-text">Mock file <span class="form-optional">optional</span></span>
+          <button type="button" class="form-upload-btn" id="add-upload-btn">Upload .html</button>
+          <span class="form-upload-name" id="add-upload-name">No file chosen</span>
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="form-submit">Add to calendar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

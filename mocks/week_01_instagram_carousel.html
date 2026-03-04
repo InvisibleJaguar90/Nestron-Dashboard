@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Instagram Mock — Nestron · Week 1 · Draft 06 · Rev 2</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: #FAFAFA;
+      min-height: 100vh;
+      padding: 32px 16px 64px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Mock banner ── */
+    .mock-banner {
+      max-width: 470px;
+      margin: 0 auto 14px;
+      background: #1C1C1C;
+      border-radius: 6px;
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .mock-banner-left {
+      font-size: 11px;
+      font-weight: 500;
+      color: #999;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .mock-banner-left strong { color: #fff; }
+    .mock-badge {
+      background: #B8722A;
+      color: #fff;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 3px 9px;
+      border-radius: 3px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    /* ── Instagram card ── */
+    .ig-card {
+      max-width: 470px;
+      margin: 0 auto;
+      background: #fff;
+      border: 1px solid #DBDBDB;
+      border-radius: 3px;
+    }
+
+    /* ── Post header ── */
+    .ig-header {
+      display: flex;
+      align-items: center;
+      padding: 12px 16px;
+      gap: 10px;
+    }
+    .ig-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #1C1C1C;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 0.1em;
+    }
+    .ig-username-block { flex: 1; min-width: 0; }
+    .ig-username {
+      font-size: 14px;
+      font-weight: 600;
+      color: #262626;
+      line-height: 1.3;
+    }
+    .ig-location {
+      font-size: 12px;
+      color: #262626;
+      line-height: 1.3;
+    }
+    .ig-follow {
+      font-size: 14px;
+      font-weight: 600;
+      color: #0095F6;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .ig-more {
+      font-size: 20px;
+      color: #262626;
+      cursor: pointer;
+      letter-spacing: -1px;
+      padding-left: 10px;
+      line-height: 1;
+    }
+
+    /* ── Carousel ── */
+    .ig-carousel-wrapper {
+      position: relative;
+      overflow: hidden;
+      background: #000;
+      aspect-ratio: 4 / 5;
+      user-select: none;
+    }
+    .ig-carousel-track {
+      display: flex;
+      height: 100%;
+      transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .ig-slide {
+      flex: 0 0 100%;
+      height: 100%;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    /* ── Slide 1: Cover ── */
+    .slide-cover {
+      background: #111;
+      align-items: center;
+      justify-content: flex-end;
+      padding-bottom: 48px;
+    }
+    .slide-cover-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.6;
+    }
+    .slide-cover-fallback {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(160deg, #2e2e2e 0%, #111 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      color: rgba(255,255,255,0.25);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .slide-cover-content {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 0 36px;
+      width: 100%;
+    }
+    .slide-cover-headline {
+      font-size: 25px;
+      font-weight: 700;
+      line-height: 1.22;
+      letter-spacing: -0.4px;
+      color: #fff;
+    }
+    .slide-wordmark {
+      position: absolute;
+      bottom: 18px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+      z-index: 1;
+      white-space: nowrap;
+    }
+
+    /* ── Content slides (2, 3, 6) — pure type ── */
+    .slide-content {
+      background: #F9F8F6;
+      padding: 36px 32px 52px;
+    }
+    .slide-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #B8722A;
+      margin-bottom: 18px;
+    }
+    .slide-claim {
+      font-size: 22px;
+      font-weight: 700;
+      line-height: 1.22;
+      color: #1C1C1C;
+      margin-bottom: 18px;
+      letter-spacing: -0.3px;
+    }
+    .slide-support {
+      font-size: 14px;
+      line-height: 1.65;
+      color: #555;
+    }
+    .slide-content-wordmark {
+      position: absolute;
+      bottom: 16px;
+      right: 20px;
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: #C8C8C8;
+    }
+
+    /* ── Content slides with recommended asset (4, 5) ── */
+    /* Extra bottom padding so copy doesn't overlap production note */
+    .slide-has-note {
+      padding-bottom: 80px;
+    }
+
+    /* ── Production note — light slides ── */
+    .prod-note {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 8px 20px 12px;
+      border-top: 1px solid rgba(184, 114, 42, 0.18);
+      background: rgba(249, 248, 246, 0.97);
+      font-size: 11px;
+      font-style: italic;
+      color: #B8722A;
+      line-height: 1.45;
+    }
+
+    /* ── Production note — dark slides (slide 7) ── */
+    .prod-note-dark {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 8px 20px 12px;
+      border-top: 1px solid rgba(255, 190, 120, 0.18);
+      background: rgba(28, 28, 28, 0.97);
+      font-size: 11px;
+      font-style: italic;
+      color: rgba(255, 190, 120, 0.7);
+      line-height: 1.45;
+    }
+
+    /* ── Final slide ── */
+    .slide-final {
+      background: #1C1C1C;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 36px 36px 80px;
+    }
+    .slide-final-claim {
+      font-size: 23px;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.28;
+      letter-spacing: -0.3px;
+      margin-bottom: 20px;
+    }
+    .slide-final-cta {
+      font-size: 13px;
+      color: rgba(255,255,255,0.45);
+      letter-spacing: 0.02em;
+    }
+    .slide-final-wordmark {
+      position: absolute;
+      bottom: 50px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.2);
+      white-space: nowrap;
+    }
+
+    /* ── Nav arrows ── */
+    .carousel-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 30px;
+      height: 30px;
+      background: rgba(255,255,255,0.88);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 10;
+      font-size: 18px;
+      line-height: 1;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.22);
+      border: none;
+      outline: none;
+      color: #1C1C1C;
+      transition: opacity 0.15s;
+    }
+    .carousel-arrow-prev { left: 10px; }
+    .carousel-arrow-next { right: 10px; }
+    .carousel-arrow:disabled { opacity: 0; pointer-events: none; }
+
+    /* ── Slide counter ── */
+    .slide-counter {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: rgba(0,0,0,0.5);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 20px;
+      z-index: 10;
+      letter-spacing: 0.03em;
+    }
+
+    /* ── Dots ── */
+    .carousel-dots {
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      z-index: 10;
+    }
+    .carousel-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.4);
+      transition: background 0.2s, width 0.2s, border-radius 0.2s;
+      flex-shrink: 0;
+    }
+    .carousel-dot.active {
+      background: #3897F0;
+      width: 16px;
+      border-radius: 3px;
+    }
+
+    /* ── Action bar ── */
+    .ig-actions {
+      display: flex;
+      align-items: center;
+      padding: 10px 16px 6px;
+    }
+    .ig-action-group {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex: 1;
+    }
+    .ig-action-icon {
+      font-size: 22px;
+      line-height: 1;
+      cursor: pointer;
+    }
+    .ig-save-wrap {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .ig-save-icon {
+      font-size: 22px;
+      line-height: 1;
+      cursor: pointer;
+    }
+    .save-callout {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #B8722A;
+    }
+
+    /* ── Caption ── */
+    .ig-likes {
+      padding: 2px 16px 4px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #262626;
+    }
+    .ig-caption {
+      padding: 2px 16px 6px;
+      font-size: 14px;
+      color: #262626;
+      line-height: 1.5;
+    }
+    .ig-caption-username {
+      font-weight: 600;
+      margin-right: 4px;
+    }
+
+    /* ── Truncation marker ── */
+    .ig-truncation {
+      position: relative;
+      margin: 10px 0;
+    }
+    .ig-truncation-rule {
+      border: none;
+      border-top: 2px dashed #0095F6;
+    }
+    .ig-truncation-pill {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: #0095F6;
+      color: #fff;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      padding: 3px 11px;
+      border-radius: 20px;
+      white-space: nowrap;
+    }
+
+    .ig-hashtag-note {
+      padding: 0 16px 4px;
+      font-size: 12px;
+      color: #8E8E8E;
+      font-style: italic;
+    }
+    .ig-date {
+      padding: 4px 16px 14px;
+      font-size: 10px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: #C7C7CC;
+    }
+
+    /* ── Annotation panel ── */
+    .annotation-panel {
+      max-width: 470px;
+      margin: 12px auto 0;
+      background: #fff;
+      border-radius: 3px;
+      border: 1px solid #DBDBDB;
+      overflow: hidden;
+    }
+    .annotation-header {
+      background: #FAFAFA;
+      padding: 9px 18px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      color: #8E8E8E;
+      border-bottom: 1px solid #DBDBDB;
+    }
+    .annotation-row {
+      display: flex;
+      gap: 14px;
+      padding: 11px 18px;
+      border-bottom: 1px solid #F3F3F3;
+      font-size: 12.5px;
+      line-height: 1.58;
+      align-items: flex-start;
+    }
+    .annotation-row:last-child { border-bottom: none; }
+    .ann-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #0095F6;
+      white-space: nowrap;
+      padding-top: 2px;
+      min-width: 76px;
+    }
+    .ann-text { color: #444; }
+    .ann-pass { color: #2d7a2d; font-weight: 600; }
+    .hashtag-list {
+      margin-top: 6px;
+      color: #003569;
+      font-size: 12px;
+      line-height: 1.85;
+    }
+    .asset-row {
+      display: flex;
+      gap: 8px;
+      margin-top: 6px;
+      align-items: flex-start;
+    }
+    .asset-slide-num {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #B8722A;
+      white-space: nowrap;
+      padding-top: 1px;
+      min-width: 48px;
+    }
+    .asset-detail { color: #444; font-size: 12px; line-height: 1.5; }
+  </style>
+</head>
+<body>
+
+  <!-- Mock banner -->
+  <div class="mock-banner">
+    <div class="mock-banner-left">
+      <strong>Instagram</strong> &nbsp;·&nbsp; Business Profile &nbsp;·&nbsp; Carousel · 7 Slides &nbsp;·&nbsp; Week 1 &nbsp;·&nbsp; Draft 06 &nbsp;·&nbsp; Rev 2
+    </div>
+    <div class="mock-badge">Mock — Not for Publication</div>
+  </div>
+
+  <!-- Instagram post card -->
+  <div class="ig-card">
+
+    <!-- Header -->
+    <div class="ig-header">
+      <div class="ig-avatar">N</div>
+      <div class="ig-username-block">
+        <div class="ig-username">nestron.house</div>
+        <div class="ig-location">Cabazon, California</div>
+      </div>
+      <div class="ig-follow">Follow</div>
+      <div class="ig-more">···</div>
+    </div>
+
+    <!-- Carousel -->
+    <div class="ig-carousel-wrapper" id="carouselWrapper">
+      <div class="ig-carousel-track" id="carouselTrack">
+
+        <!-- ── Slide 1: Cover ── -->
+        <div class="ig-slide slide-cover">
+          <div class="slide-cover-fallback" id="coverFallback">
+            Ext_front_Landing Page Hero.jpg
+          </div>
+          <img class="slide-cover-img"
+               src="../../assets/product/Ext_front_Landing Page Hero.jpg"
+               alt="Nestron L2 unit at Morongo Casino Resort, Cabazon CA"
+               onload="document.getElementById('coverFallback').style.display='none'"
+               onerror="this.style.display='none'">
+          <div class="slide-cover-content">
+            <div class="slide-cover-headline">One thing determines whether your ADU project delivers what you were promised.</div>
+          </div>
+          <div class="slide-wordmark">Nestron</div>
+        </div>
+
+        <!-- ── Slide 2: The Reality ── -->
+        <div class="ig-slide slide-content">
+          <div class="slide-label">The Reality</div>
+          <div class="slide-claim">Most ADU buyers find out what they actually got after the project is done.</div>
+          <div class="slide-support">By then the contractor has moved on, the budget is spent, and what's built is what stays.</div>
+          <div class="slide-content-wordmark">Nestron</div>
+        </div>
+
+        <!-- ── Slide 3: Why It Happens ── -->
+        <div class="ig-slide slide-content">
+          <div class="slide-label">Why It Happens</div>
+          <div class="slide-claim">Site-built construction produces variable results, by design.</div>
+          <div class="slide-support">The same builder, the same plan, a different crew or season: a different outcome. Variability is structural to how site-built construction works.</div>
+          <div class="slide-content-wordmark">Nestron</div>
+        </div>
+
+        <!-- ── Slide 4: What Changes — image recommended ── -->
+        <div class="ig-slide slide-content slide-has-note">
+          <div class="slide-label">What Changes</div>
+          <div class="slide-claim">Factory manufacturing removes that variability from the equation.</div>
+          <div class="slide-support">One facility, one production team, controlled conditions: the same inputs produce the same result every time. What was built is documented before the unit leaves the floor.</div>
+          <div class="slide-content-wordmark">Nestron</div>
+          <div class="prod-note">📷 Recommended: <strong>Ext_Back_Rows.jpg</strong> (static) — production scale makes the repeatability argument visible. &nbsp;·&nbsp; 🎬 Alt: <em>rows of units exterior pan</em> video clip for stronger reach. See annotation panel.</div>
+        </div>
+
+        <!-- ── Slide 5: What Ships — image recommended ── -->
+        <div class="ig-slide slide-content slide-has-note">
+          <div class="slide-label">What Ships to You</div>
+          <div class="slide-claim">The unit arrives complete, not a shell.</div>
+          <div class="slide-support">Integrated electrical, plumbing, cabinetry, and finished interiors are already in place. It's built, inspected, and signed off before it loads onto the flatbed.</div>
+          <div class="slide-content-wordmark">Nestron</div>
+          <div class="prod-note">📷 Recommended: <strong>Int_Living Area Angled.jpg</strong> or <strong>Int_Kitchen_Sink.jpg</strong> — the finished interior is the proof of this claim. Highest save-rate candidate. See annotation panel.</div>
+        </div>
+
+        <!-- ── Slide 6: The Tradeoff — pure type ── -->
+        <div class="ig-slide slide-content">
+          <div class="slide-label">The Tradeoff</div>
+          <div class="slide-claim">Factory-built gives up one thing: late-stage flexibility.</div>
+          <div class="slide-support">Decisions must be made before production begins. Once a unit enters fabrication, the design does not change. That clarity is the point, not the compromise.</div>
+          <div class="slide-content-wordmark">Nestron</div>
+        </div>
+
+        <!-- ── Slide 7: Final — image recommended ── -->
+        <div class="ig-slide slide-final">
+          <div class="slide-final-claim">Factory-built is a quality specification, not just a descriptor.</div>
+          <div class="slide-final-cta">Full breakdown: link in bio.</div>
+          <div class="slide-final-wordmark">Nestron</div>
+          <div class="prod-note-dark">📷 Recommended: <strong>Ext_Back_of_Unit_Mountains.jpg</strong> — different angle from cover, mountain backdrop adds real-world installation context. See annotation panel.</div>
+        </div>
+
+      </div><!-- /track -->
+
+      <!-- Nav arrows -->
+      <button class="carousel-arrow carousel-arrow-prev" id="prevBtn" onclick="moveSlide(-1)" disabled aria-label="Previous slide">&#8249;</button>
+      <button class="carousel-arrow carousel-arrow-next" id="nextBtn" onclick="moveSlide(1)" aria-label="Next slide">&#8250;</button>
+
+      <!-- Slide counter -->
+      <div class="slide-counter" id="slideCounter">1 / 7</div>
+
+      <!-- Dots -->
+      <div class="carousel-dots" id="carouselDots">
+        <div class="carousel-dot active"></div>
+        <div class="carousel-dot"></div>
+        <div class="carousel-dot"></div>
+        <div class="carousel-dot"></div>
+        <div class="carousel-dot"></div>
+        <div class="carousel-dot"></div>
+        <div class="carousel-dot"></div>
+      </div>
+
+    </div><!-- /carousel-wrapper -->
+
+    <!-- Action bar -->
+    <div class="ig-actions">
+      <div class="ig-action-group">
+        <span class="ig-action-icon">♡</span>
+        <span class="ig-action-icon">💬</span>
+        <span class="ig-action-icon" style="font-size:19px;">➤</span>
+      </div>
+      <div class="ig-save-wrap">
+        <span class="ig-save-icon">🔖</span>
+        <span class="save-callout">← key metric</span>
+      </div>
+    </div>
+
+    <!-- Likes -->
+    <div class="ig-likes">Be the first to like this</div>
+
+    <!-- Caption -->
+    <div class="ig-caption">
+      <span class="ig-caption-username">nestron.house</span>Most ADU buyers never ask the question that determines whether their project goes well.
+
+      <!-- Truncation marker -->
+      <div class="ig-truncation">
+        <hr class="ig-truncation-rule">
+        <div class="ig-truncation-pill">↑ Feed shows this line only ("…more") &nbsp;·&nbsp; ↓ Full caption</div>
+      </div>
+
+      The answer has nothing to do with price or square footage. What determines outcomes is whether what was specified is what actually gets delivered. This carousel covers why that's harder to guarantee than it sounds, and what changes it.<br><br>
+      Full breakdown at the link in our bio.
+    </div>
+
+    <!-- Hashtag note -->
+    <div class="ig-hashtag-note">Hashtags posted as first comment immediately after publishing — see annotation panel below.</div>
+
+    <!-- Date -->
+    <div class="ig-date">March 3, 2026</div>
+
+  </div><!-- /ig-card -->
+
+  <!-- Annotation panel -->
+  <div class="annotation-panel">
+    <div class="annotation-header">Review Notes</div>
+
+    <div class="annotation-row">
+      <div class="ann-label">Angle</div>
+      <div class="ann-text">Revised from v1. Previous version compressed the blog's process explanation into slides — a technically correct repurpose but not a platform-native one. This version enters at the audience's emotional state (anxiety about project outcomes) and uses the manufacturing argument as the answer, not the subject. The cover carries a curiosity hook that points toward the solution; the anxiety trigger is slide 2 on a neutral background with no product image to create brand confusion. The blog remains the detailed argument for readers who seek it; the carousel creates the motivation to seek it.</div>
+    </div>
+
+    <div class="annotation-row">
+      <div class="ann-label">Arc</div>
+      <div class="ann-text">Curiosity hook (cover) → anxiety trigger (slide 2) → problem diagnosis (slide 3) → solution (slide 4) → proof (slide 5) → honest tradeoff (slide 6) → resolution + CTA (slide 7). The tradeoff slide (6) is intentional — naming it before the reader does builds credibility and removes the objection. Omitting it would make the post feel like marketing; including it makes it feel like useful information.</div>
+    </div>
+
+    <div class="annotation-row">
+      <div class="ann-label">Key Metric</div>
+      <div class="ann-text">Saves. Slide 5 ("The unit arrives complete, not a shell") is the highest save candidate in this version — it delivers a specific, verifiable claim that buyers will want to return to or share. Slide 6 (the tradeoff) is the second highest — people save content that levels with them. Both slides should be the visual priority in production design.</div>
+    </div>
+
+    <div class="annotation-row">
+      <div class="ann-label">Assets</div>
+      <div class="ann-text">Three slides carry image or video recommendations, shown in italic amber at the slide bottom. Assignments:
+        <div class="asset-row"><div class="asset-slide-num">Slide 1</div><div class="asset-detail"><strong>Ext_front_Landing Page Hero.jpg</strong> — L2 exterior at Morongo, full frame. Primary brand visual. Confirms the product is real and installed before the carousel makes any claim.</div></div>
+        <div class="asset-row"><div class="asset-slide-num">Slide 4</div><div class="asset-detail"><strong>Ext_Back_Rows.jpg</strong> (static) — multiple units in production rows. Production scale makes the "same result every time" argument visible without words. Alternative: <em>rows of units exterior pan</em> video clip — motion reinforces repeatability more directly and video slides receive higher reach within Instagram carousels.</div></div>
+        <div class="asset-row"><div class="asset-slide-num">Slide 5</div><div class="asset-detail"><strong>Int_Living Area Angled.jpg</strong> or <strong>Int_Kitchen_Sink.jpg</strong> — the finished interior proves the claim ("arrives complete, not a shell") in a way that text alone cannot. If only one interior shot is used, prefer Int_Kitchen_Sink.jpg — integrated plumbing is the most surprising proof point for buyers who expect a shell.</div></div>
+        <div class="asset-row"><div class="asset-slide-num">Slide 7</div><div class="asset-detail"><strong>Ext_Back_of_Unit_Mountains.jpg</strong> — rear of the L2 with the San Jacinto range behind. Different angle from the cover, bookends the carousel visually, and adds real-world installation context (this is a unit on a real site, not a factory rendering).</div></div>
+      </div>
+    </div>
+
+    <div class="annotation-row">
+      <div class="ann-label">Slide Design</div>
+      <div class="ann-text">Slides 2, 3, and 6 are pure type — off-white background (#F9F8F6), amber label (#B8722A), dark headline (#1C1C1C), Nestron wordmark bottom-right in light gray. Slides 4 and 5 follow the same design but the recommended image becomes either the background (with overlay) or a right-panel split at production. Slide 7: dark background (#1C1C1C), white type, centered. All slides: 1080 × 1350px (4:5). Minimum 5pt padding clearance around all text for safe-zone compliance.</div>
+    </div>
+
+    <div class="annotation-row">
+      <div class="ann-label">Truncation</div>
+      <div class="ann-text">The blue dashed line marks the mobile "…more" cut. Only the hook line is visible in the feed. "Most ADU buyers never ask the question that determines whether their project goes well." — complete enough to stand alone, specific enough to create urgency. The carousel delivers the answer across 7 slides; the caption body is for the reader who tapped through and wants the written version before clicking the bio link.</div>
+    </div>
+
+    <div class="annotation-row">
+      <div class="ann-label">Hashtags</div>
+      <div class="ann-text">Post as first comment immediately after publishing (within 30 seconds). 24 tags — mix of niche ADU, mid-size home improvement, broader architecture:
+        <div class="hashtag-list">#ADU #accessorydwellingunit #ADUdesign #factorybuiltADU #backyardbuilding #backyardADU #modularhome #prefabarchitecture #modernarchitecture #architecturedesign #contemporarydesign #homeimprovement #homebuilding #realestatedevelopment #newconstruction #tinyhouse #smallspaceliving #homeowners #ADUlife #modulardesign #prefabhome #designforward #permanentstructure #residentialdesign</div>
+      </div>
+    </div>
+
+    <div class="annotation-row">
+      <div class="ann-label">Timing</div>
+      <div class="ann-text">Publish Tuesday or Wednesday, 11 AM or 2 PM local time. Reply to comments within the first 60 minutes. Post the hashtag comment within 30 seconds of publishing — set it up in a notes app before going live to avoid delay.</div>
+    </div>
+
+    <div class="annotation-row">
+      <div class="ann-label">Reel alt.</div>
+      <div class="ann-text">A companion Reel covering the same arc is a strong follow-on 5–7 days after this carousel publishes. Suggested assets: slow pan of exterior front → living area walk-through → kitchen reveal. Voiceover mirrors slide 5: "375 square feet. Electrical, plumbing, cabinetry — installed before delivery. This is what ships." Reels reach non-followers via Explore; this carousel deepens engagement with followers who see it. Both are needed and they reinforce each other.</div>
+    </div>
+
+    <div class="annotation-row">
+      <div class="ann-label">Red Lines</div>
+      <div class="ann-text"><span class="ann-pass">✓ Pass</span> — No ROI claims, no timeline guarantees, no permit approval language, no competitor references. Anti-AI pattern check: no em dashes throughout; "It's not X / it's Y" structure absent from caption and slides; stacked "No X. No Y." pattern replaced with prose in slide 3 equivalent; "Not a shell." standalone fragment merged into slide 5 claim as a clause; no prohibited vocabulary. Slide 6 tradeoff language ("that clarity is the point, not the compromise") reads as prose, not a rhetorical split.</div>
+    </div>
+
+  </div><!-- /annotation-panel -->
+
+  <script>
+    let current = 0;
+    const total = 7;
+    const track = document.getElementById('carouselTrack');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const counter = document.getElementById('slideCounter');
+    const dots = document.querySelectorAll('.carousel-dot');
+
+    function moveSlide(dir) {
+      current = Math.max(0, Math.min(total - 1, current + dir));
+      track.style.transform = 'translateX(-' + (current * 100) + '%)';
+      counter.textContent = (current + 1) + ' / ' + total;
+      prevBtn.disabled = current === 0;
+      nextBtn.disabled = current === total - 1;
+      dots.forEach(function(d, i) { d.classList.toggle('active', i === current); });
+    }
+
+    // Keyboard navigation
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'ArrowRight') moveSlide(1);
+      if (e.key === 'ArrowLeft') moveSlide(-1);
+    });
+
+    // Touch/swipe
+    var touchStartX = 0;
+    var wrapper = document.getElementById('carouselWrapper');
+    wrapper.addEventListener('touchstart', function(e) {
+      touchStartX = e.touches[0].clientX;
+    }, { passive: true });
+    wrapper.addEventListener('touchend', function(e) {
+      var dx = e.changedTouches[0].clientX - touchStartX;
+      if (Math.abs(dx) > 40) moveSlide(dx < 0 ? 1 : -1);
+    }, { passive: true });
+  </script>
+
+</body>
+</html>
