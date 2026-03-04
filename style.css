@@ -688,6 +688,38 @@ button { font-family: inherit; cursor: pointer; }
 .badge[data-status="scheduled"] { background: rgba( 59,130,246,0.14); color: #1e3a8a; }
 .badge[data-status="published"] { background: rgba(107,114,128,0.15); color: #374151; }
 
+/* Video tags */
+.card-video-tag {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  background: var(--accent);
+  color: #fff;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 5px 10px;
+  border-radius: 4px;
+  pointer-events: none;
+  z-index: 4;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+}
+.cal-video-tag {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  background: var(--accent);
+  color: #fff;
+  padding: 2px 6px;
+  border-radius: 3px;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
 /* ── EMPTY STATE ──────────────────────────────────────────────────────────── */
 
 .empty-state {
@@ -758,12 +790,25 @@ button { font-family: inherit; cursor: pointer; }
   overflow: hidden;
   text-overflow: ellipsis;
 }
+.modal-meta-row { display: flex; align-items: center; gap: 8px; }
 .modal-platform-label {
   font-family: var(--font-mono);
   font-size: 0.62rem;
   color: rgba(255,255,255,0.45);
   text-transform: uppercase;
   letter-spacing: 0.08em;
+}
+.modal-video-badge {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: var(--accent);
+  color: #fff;
+  padding: 2px 7px;
+  border-radius: 3px;
+  white-space: nowrap;
 }
 
 .modal-controls { display: flex; align-items: center; gap: var(--space-lg); flex-shrink: 0; }
@@ -859,6 +904,7 @@ button { font-family: inherit; cursor: pointer; }
   color: var(--text-meta);
 }
 .form-optional { font-weight: 400; font-size: 0.72rem; color: var(--text-light); margin-left: 4px; }
+.form-label--check { flex-direction: row; align-items: center; gap: 8px; cursor: pointer; }
 
 .form-input, .form-select, .form-textarea {
   background: var(--bg-page);

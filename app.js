@@ -108,6 +108,7 @@ const closeBtnEl      = document.getElementById('modal-close');
 const modalIconEl     = document.getElementById('modal-platform-icon');
 const modalTitleEl    = document.getElementById('modal-title');
 const modalLabelEl    = document.getElementById('modal-platform-label');
+const modalVideoBadgeEl = document.getElementById('modal-video-badge');
 const tabMockBtn      = document.getElementById('tab-mock');
 const tabTextBtn      = document.getElementById('tab-text');
 const panelMockEl     = document.getElementById('panel-mock');
@@ -492,6 +493,7 @@ function openEditPostForm(post) {
   addPlatformEl.value = post.platform;
   addDateEl.value = post.scheduled_date;
   document.getElementById('add-topic').value   = post.topic    || '';
+  document.getElementById('add-has-video').checked = !!post.has_video;
   document.getElementById('add-title').textContent = 'Edit post';
   addBackdropEl.classList.add('is-open');
 }
@@ -526,7 +528,8 @@ function handleAddPostSubmit(e) {
       scheduled_date,
       topic: fd.get('topic') || '',
       week,
-      status: base.status || 'draft'
+      status: base.status || 'draft',
+      has_video: fd.get('has_video') === 'on'
     };
     if (pendingAddMockHtml) {
       const extracted = extractHtmlTitle(pendingAddMockHtml);
@@ -545,7 +548,8 @@ function handleAddPostSubmit(e) {
       id: `local_${Date.now()}`,
       platform, scheduled_date,
       topic:    fd.get('topic')    || '',
-      week, status: 'draft', isLocal: true
+      week, status: 'draft', isLocal: true,
+      has_video: fd.get('has_video') === 'on'
     };
     if (pendingAddMockHtml) {
       const extracted = extractHtmlTitle(pendingAddMockHtml);
@@ -874,6 +878,13 @@ function buildCompactCard(post) {
   card.appendChild(title);
   card.appendChild(buildBadge(post));
 
+  if (post.has_video) {
+    const vTag = document.createElement('span');
+    vTag.className = 'cal-video-tag';
+    vTag.textContent = '▶ Video';
+    card.appendChild(vTag);
+  }
+
   const editBtn = document.createElement('button');
   editBtn.className = 'cal-compact-edit';
   editBtn.setAttribute('aria-label', 'Edit post');
@@ -923,6 +934,13 @@ function buildCard(post) {
   const previewWrap = document.createElement('div');
   previewWrap.className = 'card-preview-wrap';
   populatePreviewWrap(previewWrap, post);
+
+  if (post.has_video) {
+    const vTag = document.createElement('div');
+    vTag.className = 'card-video-tag';
+    vTag.textContent = '▶ Video';
+    previewWrap.appendChild(vTag);
+  }
 
   const info = document.createElement('div');
   info.className = 'card-info';
@@ -1156,6 +1174,7 @@ function openModal(post, tab = 'mock') {
   modalIconEl.innerHTML    = getPlatformIcon(post.platform);
   modalTitleEl.textContent = getCardTitle(post);
   modalLabelEl.textContent = PLATFORM_LABELS[post.platform] || post.platform;
+  modalVideoBadgeEl.classList.toggle('hidden', !post.has_video);
 
   const hasMock = !!(post.blobUrl || post.mock_file);
   iframeEl.src = post.blobUrl || post.mock_file || '';
